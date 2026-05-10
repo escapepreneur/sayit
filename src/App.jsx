@@ -466,14 +466,12 @@ export default function App() {
             <div style={{ minHeight: 62, background: "#F8FAFC", border: "2px solid #CBD5E1", borderRadius: 12, padding: "12px 16px", fontSize: 20, fontWeight: 600, color: "#0F172A", marginBottom: 12, lineHeight: 1.4, wordBreak: "break-word" }}>
               {message || <span style={{ color: "#94A3B8", fontWeight: 400, fontSize: 17 }}>Tap the keys below...</span>}
             </div>
-            {(suggestions.length > 0 || loadingS) && (
-              <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", minHeight: 38 }}>
-                {loadingS && <span style={{ color: "#94A3B8", fontSize: 14, alignSelf: "center" }}>thinking...</span>}
-                {suggestions.map((w, i) => (
-                  <Btn key={i} style={{ padding: "8px 16px", background: "#EEF2FF", color: "#3730A3", borderRadius: 10, fontSize: 16, fontWeight: 600 }} onClick={() => applyWord(w)}>{w}</Btn>
-                ))}
-              </div>
-            )}
+            <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", minHeight: 42, alignItems: "center" }}>
+              {loadingS && <span style={{ color: "#CBD5E1", fontSize: 14 }}>...</span>}
+              {!loadingS && suggestions.map((w, i) => (
+                <Btn key={i} style={{ padding: "8px 16px", background: "#EEF2FF", color: "#3730A3", borderRadius: 10, fontSize: 16, fontWeight: 600 }} onClick={() => applyWord(w)}>{w}</Btn>
+              ))}
+            </div>
             {KB_ROWS.map((row, ri) => (
               <div key={ri} style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 4 }}>
                 {row.map(k => (
