@@ -36,13 +36,13 @@ const DEFAULT_PHRASES = {
 };
 
 const TABS = [
-  { id: "favourites", label: "Favourites", color: "#D97706", light: "#FFFBEB", emoji: "⭐" },
-  { id: "medical",    label: "Medical",    color: "#1D4ED8", light: "#EFF6FF", emoji: "🏥" },
-  { id: "needs",      label: "Needs",      color: "#15803D", light: "#F0FDF4", emoji: "💧" },
-  { id: "feelings",   label: "Feelings",   color: "#C2410C", light: "#FFF7ED", emoji: "❤️" },
-  { id: "social",     label: "Social",     color: "#7C3AED", light: "#FAF5FF", emoji: "💬" },
-  { id: "family",     label: "Family",     color: "#BE185D", light: "#FDF2F8", emoji: "👨‍👩‍👧" },
-  { id: "keyboard",   label: "Type",       color: "#475569", light: "#F1F5F9", emoji: "⌨️" },
+  { id: "favourites", label: "Favourites", color: "#B45309", pale: "#FEF3C7", light: "#FFFBEB", emoji: "⭐" },
+  { id: "medical",    label: "Medical",    color: "#1D4ED8", pale: "#DBEAFE", light: "#EFF6FF", emoji: "🏥" },
+  { id: "needs",      label: "Needs",      color: "#15803D", pale: "#DCFCE7", light: "#F0FDF4", emoji: "💧" },
+  { id: "feelings",   label: "Feelings",   color: "#C2410C", pale: "#FEE2E2", light: "#FFF7ED", emoji: "❤️" },
+  { id: "social",     label: "Social",     color: "#6D28D9", pale: "#EDE9FE", light: "#FAF5FF", emoji: "💬" },
+  { id: "family",     label: "Family",     color: "#BE185D", pale: "#FCE7F3", light: "#FDF2F8", emoji: "👨‍👩‍👧" },
+  { id: "keyboard",   label: "Type",       color: "#334155", pale: "#E2E8F0", light: "#F1F5F9", emoji: "⌨️" },
 ];
 
 const KB_ROWS = [
@@ -448,10 +448,10 @@ export default function App() {
       </div>
 
       {/* TABS */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 5 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 6 }}>
         {TABS.map(t => (
-          <Btn key={t.id} style={{ padding: "8px 3px", background: tab === t.id ? t.color : "#fff", color: tab === t.id ? "#fff" : "#64748B", border: "2px solid " + (tab === t.id ? t.color : "#E2E8F0"), borderRadius: 11, fontSize: 10, fontWeight: 700, display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }} onClick={() => setTab(t.id)}>
-            <span style={{ fontSize: 17 }}>{t.emoji}</span>{t.label}
+          <Btn key={t.id} style={{ padding: "11px 3px", background: tab === t.id ? t.color : t.pale, color: tab === t.id ? "#fff" : t.color, border: "2px solid " + t.color, borderRadius: 14, fontSize: 11, fontWeight: 800, display: "flex", flexDirection: "column", alignItems: "center", gap: 3, transition: "all 0.15s" }} onClick={() => setTab(t.id)}>
+            <span style={{ fontSize: 20 }}>{t.emoji}</span>{t.label}
           </Btn>
         ))}
       </div>
