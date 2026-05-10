@@ -30,13 +30,13 @@ const DEFAULT_PHRASES = {
 };
 
 const TABS = [
-  { id: "favourites", label: "Favourites", color: "#D97706", light: "#FFFBEB", emoji: "\u2B50" },
-  { id: "medical",    label: "Medical",    color: "#1D4ED8", light: "#EFF6FF", emoji: "\uD83C\uDFE5" },
-  { id: "needs",      label: "Needs",      color: "#15803D", light: "#F0FDF4", emoji: "\uD83D\uDCA7" },
-  { id: "feelings",   label: "Feelings",   color: "#C2410C", light: "#FFF7ED", emoji: "\u2764\uFE0F" },
-  { id: "social",     label: "Social",     color: "#7C3AED", light: "#FAF5FF", emoji: "\uD83D\uDCAC" },
-  { id: "family",     label: "Family",     color: "#BE185D", light: "#FDF2F8", emoji: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67" },
-  { id: "keyboard",   label: "Type",       color: "#475569", light: "#F1F5F9", emoji: "\u2328\uFE0F" },
+  { id: "favourites", label: "Favourites", color: "#D97706", light: "#FFFBEB", emoji: "⭐" },
+  { id: "medical",    label: "Medical",    color: "#1D4ED8", light: "#EFF6FF", emoji: "🏥" },
+  { id: "needs",      label: "Needs",      color: "#15803D", light: "#F0FDF4", emoji: "💧" },
+  { id: "feelings",   label: "Feelings",   color: "#C2410C", light: "#FFF7ED", emoji: "❤️" },
+  { id: "social",     label: "Social",     color: "#7C3AED", light: "#FAF5FF", emoji: "💬" },
+  { id: "family",     label: "Family",     color: "#BE185D", light: "#FDF2F8", emoji: "👨‍👩‍👧" },
+  { id: "keyboard",   label: "Type",       color: "#475569", light: "#F1F5F9", emoji: "⌨️" },
 ];
 
 const KB_ROWS = [
@@ -299,7 +299,7 @@ export default function App() {
                 {auVoices.map(v => (
                   <div key={v.name} style={{ display: "flex", gap: 8 }}>
                     <Btn style={{ flex: 1, padding: "10px 14px", background: selectedVoice === v.name ? "#1D4ED8" : "#F1F5F9", color: selectedVoice === v.name ? "#fff" : "#0F172A", borderRadius: 10, fontSize: 14, fontWeight: 600, textAlign: "left" }} onClick={() => { setSelVoice(v.name); saveVoice(v.name, speechRate); }}>
-                      {selectedVoice === v.name ? "\u2713 " : ""}{v.name}{v.name === bestName ? " (recommended)" : ""}
+                      {selectedVoice === v.name ? "✓ " : ""}{v.name}{v.name === bestName ? " (recommended)" : ""}
                     </Btn>
                     <Btn style={{ padding: "10px 14px", background: "#E0F2FE", color: "#0369A1", borderRadius: 10, fontSize: 14, fontWeight: 600 }} onClick={() => { setSelVoice(v.name); saveVoice(v.name, speechRate); setTimeout(() => say("Hello, I am using this app to communicate with you."), 100); }}>
                       Test
@@ -316,7 +316,7 @@ export default function App() {
                 {othVoices.map(v => (
                   <div key={v.name} style={{ display: "flex", gap: 8 }}>
                     <Btn style={{ flex: 1, padding: "10px 14px", background: selectedVoice === v.name ? "#1D4ED8" : "#F1F5F9", color: selectedVoice === v.name ? "#fff" : "#0F172A", borderRadius: 10, fontSize: 14, fontWeight: 600, textAlign: "left" }} onClick={() => { setSelVoice(v.name); saveVoice(v.name, speechRate); }}>
-                      {selectedVoice === v.name ? "\u2713 " : ""}{v.name}{v.name === bestName ? " (recommended)" : ""}
+                      {selectedVoice === v.name ? "✓ " : ""}{v.name}{v.name === bestName ? " (recommended)" : ""}
                     </Btn>
                     <Btn style={{ padding: "10px 14px", background: "#E0F2FE", color: "#0369A1", borderRadius: 10, fontSize: 14, fontWeight: 600 }} onClick={() => { setSelVoice(v.name); saveVoice(v.name, speechRate); setTimeout(() => say("Hello, I am using this app to communicate with you."), 100); }}>
                       Test
@@ -374,7 +374,7 @@ export default function App() {
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
       {list.length === 0 && (
         <div style={{ gridColumn: "1/-1", textAlign: "center", padding: "32px 0", color: "#94A3B8", fontSize: 15 }}>
-          {tab === "favourites" ? "Tap the \u2606 on any phrase to add it here" : "No phrases yet"}
+          {tab === "favourites" ? "Tap the ☆ on any phrase to add it here" : "No phrases yet"}
         </div>
       )}
       {list.map((ph, i) => (
@@ -383,7 +383,7 @@ export default function App() {
             {ph}
           </Btn>
           <Btn style={{ width: 40, background: favourites.includes(ph) ? "#FEF3C7" : "#F1F5F9", color: favourites.includes(ph) ? "#D97706" : "#CBD5E1", borderRadius: 10, fontSize: 20, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }} onClick={() => toggleFav(ph)}>
-            {favourites.includes(ph) ? "\u2605" : "\u2606"}
+            {favourites.includes(ph) ? "★" : "☆"}
           </Btn>
         </div>
       ))}
@@ -404,13 +404,13 @@ export default function App() {
           </Btn>
         )}
         <Btn style={{ height: 42, padding: "0 12px", background: "#F1F5F9", color: "#475569", borderRadius: 10, fontSize: 13, fontWeight: 700, whiteSpace: "nowrap" }} onClick={() => setShowHistory(true)}>
-          \uD83D\uDCCB History {history.length > 0 ? "(" + history.length + ")" : ""}
+          📋 History {history.length > 0 ? "(" + history.length + ")" : ""}
         </Btn>
         <Btn style={{ height: 42, padding: "0 14px", background: "#DC2626", color: "#fff", borderRadius: 10, fontSize: 14, fontWeight: 900, whiteSpace: "nowrap", letterSpacing: 1 }} onClick={startPanic}>
-          \uD83D\uDEA8 HELP
+          🚨 HELP
         </Btn>
         <Btn style={{ height: 42, padding: "0 12px", background: "#475569", color: "#fff", borderRadius: 10, fontSize: 13, fontWeight: 700, whiteSpace: "nowrap" }} onClick={() => setShowSettings(true)}>
-          \u2699\uFE0F Settings
+          ⚙️ Settings
         </Btn>
       </div>
 
