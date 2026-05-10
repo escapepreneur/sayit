@@ -1,4 +1,10 @@
 import { useState, useEffect, useRef } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const DEFAULT_PHRASES = {
   medical: [
@@ -120,11 +126,21 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      try { const r = await window.storage.get("aac-phrases-v2"); if (r && r.value) setPhrases(JSON.parse(r.value)); } catch {}
-      try { const r = await window.storage.get("aac-favs-v1");   if (r && r.value) setFavourites(JSON.parse(r.value)); } catch {}
       try {
-        const r = await window.storage.get("aac-voice-v1");
-        if (r && r.value) { const s = JSON.parse(r.value); if (s.rate) setSpeechRate(s.rate); if (s.voiceName) setSelVoice(s.voiceName); }
+        const { data } = await supabase.from("phrases").select("category, phrase").order("created_at");
+        if (data && data.length) {
+          const grouped = { medical: [], needs: [], feelings: [], social: [], family: [] };
+          data.forEach(r => { if (grouped[r.category]) grouped[r.category].push(r.phrase); });
+          setPhrases(grouped);
+        }
+      } catch {}
+      try {
+        const { data } = await supabase.from("favourites").select("phrase").order("created_at");
+        if (data && data.length) setFavourites(data.map(r => r.phrase));
+      } catch {}
+      try {
+        const stored = localStorage.getItem("aac-voice-v1");
+        if (stored) { const s = JSON.parse(stored); if (s.rate) setSpeechRate(s.rate); if (s.voiceName) setSelVoice(s.voiceName); }
       } catch {}
     })();
   }, []);
@@ -143,9 +159,26 @@ export default function App() {
     if (historyEndRef.current) historyEndRef.current.scrollIntoView({ behavior: "smooth" });
   }, [history, showHistory]);
 
-  const saveAll  = async (u) => { setPhrases(u);    try { await window.storage.set("aac-phrases-v2", JSON.stringify(u)); } catch {} };
-  const saveFavs = async (f) => { setFavourites(f); try { await window.storage.set("aac-favs-v1",   JSON.stringify(f)); } catch {} };
-  const saveVoice = async (n, r) => { try { await window.storage.set("aac-voice-v1", JSON.stringify({ voiceName: n, rate: r })); } catch {} };
+  const saveAll = async (u) => {
+    setPhrases(u);
+    try {
+      await supabase.from("phrases").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+      const rows = Object.entries(u).flatMap(([cat, list]) => list.map(phrase => ({ category: cat, phrase })));
+      await supabase.from("phrases").insert(rows);
+    } catch {}
+  };
+
+  const saveFavs = async (f) => {
+    setFavourites(f);
+    try {
+      await supabase.from("favourites").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+      if (f.length) await supabase.from("favourites").insert(f.map(phrase => ({ phrase })));
+    } catch {}
+  };
+
+  const saveVoice = async (n, r) => {
+    try { localStorage.setItem("aac-voice-v1", JSON.stringify({ voiceName: n, rate: r })); } catch {}
+  };
 
   const say = (text) => {
     if (!text || !text.trim()) return;
