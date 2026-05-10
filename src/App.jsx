@@ -467,10 +467,10 @@ export default function App() {
               {message || <span style={{ color: "#94A3B8", fontWeight: 400, fontSize: 17 }}>Tap the keys below...</span>}
             </div>
             <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap", minHeight: 42, alignItems: "center" }}>
-              {loadingS && <span style={{ color: "#CBD5E1", fontSize: 14 }}>...</span>}
-              {!loadingS && suggestions.map((w, i) => (
+              {suggestions.map((w, i) => (
                 <Btn key={i} style={{ padding: "8px 16px", background: "#EEF2FF", color: "#3730A3", borderRadius: 10, fontSize: 16, fontWeight: 600 }} onClick={() => applyWord(w)}>{w}</Btn>
               ))}
+              {loadingS && suggestions.length === 0 && <span style={{ color: "#CBD5E1", fontSize: 14 }}>...</span>}
             </div>
             {KB_ROWS.map((row, ri) => (
               <div key={ri} style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 4 }}>
