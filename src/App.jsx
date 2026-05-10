@@ -232,12 +232,17 @@ export default function App() {
     debRef.current = setTimeout(async () => {
       setLoadingS(true);
       try {
-        const res = await fetch("https://api.anthropic.com/v1/messages", {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 80,
-            system: "Word prediction for a stroke patient in hospital. Return ONLY a JSON array of 5 short next-word predictions (1-2 words each). No other text, no markdown fences.",
-            messages: [{ role: "user", content: "Text so far: \"" + message + "\"" }] })
-        });
+        const res = await fetch(
+          import.meta.env.VITE_SUPABASE_URL + "/functions/v1/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + import.meta.env.VITE_SUPABASE_ANON_KEY,
+            },
+            body: JSON.stringify({ message })
+          }
+        );
         const d = await res.json();
         const raw = ((d.content && d.content[0] && d.content[0].text) || "[]").replace(/```json|```/g, "").trim();
         setSugg(JSON.parse(raw).slice(0, 5));
